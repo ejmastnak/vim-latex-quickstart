@@ -1,0 +1,24 @@
+snippet "([^a-zA-Z])l\(" "Left/Right parentheses" rA
+`!p snip.rv = match.group(1)`\left( ${1:${VISUAL:}} \right)$0
+endsnippet
+
+snippet "([^a-zA-Z])l\[" "Left/Right square brackets" rA
+`!p snip.rv = match.group(1)`\left[ ${1:${VISUAL:}} \right]$0
+endsnippet
+
+snippet "([^a-zA-Z])l\{" "Left/Right curly braces" rA
+`!p snip.rv = match.group(1)`\left\\{ ${1:${VISUAL:}} \right\\}$0
+endsnippet
+
+# Turns b( into big( big) and turns B( into Big( Big)
+snippet "([^a-zA-Z])([bB])\(" "(bB)ig/(bB)ig parentheses" rA
+`!p snip.rv = match.group(1)`\\`!p snip.rv = match.group(2)`ig( ${1:${VISUAL:}} \\`!p snip.rv = match.group(2)`ig)$0
+endsnippet
+
+snippet "([^a-zA-Z])([bB])\[" "(bB)ig/(bB)ig square brackets" rA
+`!p snip.rv = match.group(1)`\\`!p snip.rv = match.group(2)`ig[ ${1:${VISUAL:}} \\`!p snip.rv = match.group(2)`ig]$0
+endsnippet
+
+snippet "([^a-zA-Z])([bB])\{" "(bB)ig/(bB)ig curly brackets" rA
+`!p snip.rv = match.group(1)`\\`!p snip.rv = match.group(2)`ig\\{ ${1:${VISUAL:}} \\`!p snip.rv = match.group(2)`ig\\}$0
+endsnippet
