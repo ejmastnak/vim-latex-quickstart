@@ -5,6 +5,7 @@ call plug#begin('~/dotfiles/config/nvim/plugged')
 Plug 'junegunn/vim-plug'
 Plug 'SirVer/ultisnips'
 Plug 'lervag/vimtex'
+ Plug 'itchyny/lightline.vim'
 call plug#end()
 
 " A few shortcuts for common commands
@@ -26,3 +27,5 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " An example of how to source a separate Vimscript file
 source ~/.config/nvim/personal/delete-paired-delims.vim
 
+" Disable in favor of lightline statusline
+set noshowmode
