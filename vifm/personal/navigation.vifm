@@ -1,0 +1,21 @@
+" Convention: prefix shortcuts with "g" (for "go")
+" There are two types of shortcuts:
+" 1. :cd (use to change into a directory)
+" 2. :goto (use to move cursor to a specific file)
+
+" Config directory
+nnoremap gcc :cd ~/.config<CR>
+
+" Vim configuration files
+nnoremap gvv :cd ~/dotfiles/config/nvim<CR>
+nnoremap gvf :cd ~/dotfiles/config/nvim/ftplugin<CR>
+nnoremap gvi :goto ~/dotfiles/config/nvim/init.vim<CR>
+
+" Home directory
+nnoremap ghh :cd ~<CR>
+
+" Documents directory
+nnoremap gdd :cd ~/Documents<CR>
+
+" Sandbox
+nnoremap gss :cd ~/sandbox<CR>

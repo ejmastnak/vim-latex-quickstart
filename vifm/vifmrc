@@ -1,0 +1,144 @@
+" % vim: set filetype=vim :
+
+" BEGIN BASIC SETTINGS
+" ---------------------------------------------
+set vicmd=nvim          " basic editor command
+set vimhelp             " use Vim-style help file instead of plain text
+set syscalls            " perform file operations with vifm instead of cp
+set trash               " use a temporary trash directory
+set dotdirs=rootparent  " show ../ only when directory is empty
+set confirm-=delete     " disable confirmation when deleting files
+set history=100         " directories to store in directory history
+set undolevels=100      " maximum number of changes that can be undone
+set nofollowlinks       " automatically resolve symbolic links on l or Enter.
+set sortnumbers         " natural sort of (version) numbers within text
+set nohlsearch          " don't highlight search results automatically
+set noincsearch         " don't jump to match while type
+set scrolloff=4         " add space between cursor and border in lists
+set slowfs=curlftpfs    " don't do too many requests to slow file systems
+set norunexec           " don't automatically run executable files on l or Enter
+colorscheme nord Default
+
+" Ignore case in search patterns unless the pattern 
+" contains at least one uppercase letter.
+set ignorecase
+set smartcase
+
+" Completion
+set wildmenu         " show list of matches on tab completion in command-line mode
+set wildstyle=popup  " display completions as a popup with descriptions of the matches
+
+" What should be saved automatically between vifm sessions.  Drop "savedirs"
+" value if you don't want vifm to remember last visited directories for you.
+set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
+    \phistory,fhistory,dirstack,registers,bookmarks,bmarks
+
+" Set custom status line look
+highlight User1 ctermbg=blue ctermfg=white cterm=bold
+let &statusline = '%1*  %A %10u:%-7g %15s %20d  %='
+
+" Format for time in file list
+set timefmt=%m/%d\ %H:%M  
+
+" Display suggestions in normal, visual and view modes for keys, marks and
+" registers (at most 5 files).  In other view, when available.
+set suggestoptions=normal,visual,view,otherpane,keys,marks,registers
+" ---------------------------------------------
+" END BASIC SETTINGS
+
+" Source navigation shortcuts
+source ~/.config/vifm/personal/navigation.vifm
+
+" Useful key mappings
+" ---------------------------------------------
+" Start shell in current directory
+nnoremap s :shell<cr>
+
+" Shortcut for edit command
+nnoremap e :edit<space>
+
+" Shortcut for mkdir command
+nnoremap m :mkdir<space>
+
+" Mappings for faster renaming
+nnoremap I cw<c-a>
+nnoremap cc cw<c-u>
+nnoremap A cw
+
+" Find files
+nnoremap F :find<space>
+
+" Restart Vifm
+nnoremap RR :restart<CR>
+" ---------------------------------------------
+
+" BEGIN FILE OPENING CONFIGURATION
+" ---------------------------------------------
+" Man page
+filetype {*.[1-8]},<text/troff> man ./%c
+fileviewer {*.[1-8]},<text/troff> man ./%c | col -b
+
+" MD5
+filetype *.md5
+       \ {Check MD5 hash sum}
+       \ md5sum -c %f %S,
+
+" SHA1
+filetype *.sha1
+       \ {Check SHA1 hash sum}
+       \ sha1sum -c %f %S,
+
+" SHA256
+filetype *.sha256
+       \ {Check SHA256 hash sum}
+       \ sha256sum -c %f %S,
+
+" SHA512
+filetype *.sha512
+       \ {Check SHA512 hash sum}
+       \ sha512sum -c %f %S,
+
+" Extract zip files
+filetype {*.zip},<application/zip,application/java-archive> unzip %f
+fileviewer {*.zip,*.jar,*.war,*.ear},
+          \<application/zip,application/java-archive>
+          \ zip -sf %c
+
+" Extract tar archives
+filetype {*.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz},<application/x-tar>
+       \ tar -xf %f
+fileviewer {*.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz},<application/x-tar>
+         \ tar -tf %f
+
+" Extract .bz2 archives
+filetype *.bz2 bzip2 -d %f
+
+" Extract .gz files
+filetype *.gz gunzip %f
+" ---------------------------------------------
+" END FILE OPENING CONFIGURATION
+
+" Some built-in Vifm commands
+command! df df -h %m 2> /dev/null
+command! diff vim -d %f %F
+command! zip zip -r %f.zip %f
+command! run !! ./%f
+command! make !!make %a
+command! mkcd :mkdir %a | cd %a
+command! reload :write | restart full
+
+" Copy and paste
+" See https://wiki.vifm.info/index.php/How_to_copy_path_to_current_file/directory_to_system_clipboard
+" ---------------------------------------------
+" yank current directory path into the clipboard
+nnoremap yd :!echo -n %d | xclip -selection clipboard %i<cr>:echo expand('%"d') "is yanked to clipboard"<cr>
+
+" yank current file path into the clipboard
+nnoremap yp :!echo -n %c:p | xclip -selection clipboard %i<cr>:echo expand('%"c:p') "is yanked to clipboard"<cr>
+
+" yank current filename without path into the clipboard
+nnoremap yn :!echo -n %c | xclip -selection clipboard %i<cr>:echo expand('%"c') "is yanked to clipboard"<cr>
+
+" yank root of current file's name into the clipboard
+nnoremap yr :!echo -n %c:r | xclip -selection clipboard %i<cr>:echo expand('%"c:r') "is yanked to clipboard"<cr>
+" ---------------------------------------------
